@@ -18,10 +18,12 @@ const questions = [
     author: {
       name: "John Doe",
       _id: "2",
+      picture: "/assets/",
+      clerkId: "",
     },
     upvotes: 10,
     views: 100,
-    answers: 2,
+    answers: [],
     createdAt: new Date(),
   },
   {
@@ -34,10 +36,12 @@ const questions = [
     author: {
       name: "John Doe",
       _id: "2",
+      picture: "",
+      clerkId: "",
     },
     upvotes: 10,
     views: 100,
-    answers: 2,
+    answers: [],
     createdAt: new Date(),
   },
 ];
@@ -82,7 +86,7 @@ export default function Home() {
                 title={question.title}
                 tags={question.tags}
                 author={question.author}
-                upvotes={question.upvotes.length}
+                upvotes={question.upvotes}
                 views={question.views}
                 answers={question.answers}
                 createdAt={question.createdAt}
