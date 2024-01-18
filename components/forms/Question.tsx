@@ -20,27 +20,26 @@ import {
 import { Input } from "@/components/ui/input";
 import { useTheme } from "@/context/ThemeProvider";
 // import { createQuestion, editQuestion } from "@/lib/actions/question.action";
+import { createQuestion } from "@/lib/actions/question.action";
 import { questionsSchema } from "@/lib/validations";
 import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
 import { Badge } from "../ui/badge";
+import { toast } from "../ui/use-toast";
 // import { toast } from "../ui/use-toast";
 
 interface QuestionProps {
   type?: string;
-  //   mongoUserId: string;
+  mongoUserId: string;
   questionData?: string;
 }
 
-const Question = ({
-  // mongoUserId,
-  type,
-  questionData,
-}: QuestionProps) => {
+const Question = ({ mongoUserId, type, questionData }: QuestionProps) => {
   const { mode } = useTheme();
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  //   const router = useRouter();
-  //   const pathname = usePathname();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const questionDetails = questionData && JSON.parse(questionData || "");
 
@@ -76,19 +75,19 @@ const Question = ({
       //     });
       //   } else {
       //     // contain all form data
-      //     await createQuestion({
-      //       title: values.title,
-      //       content: values.explanation,
-      //       tags: values.tags,
-      //       author: JSON.parse(mongoUserId),
-      //       path: pathname,
-      //     });
-      //     toast({
-      //       title: `Question posted successfully`,
-      //       description: "Your question has been added successfully",
-      //     });
-      //     // after question create navigate to home page
-      //     router.push("/");
+      await createQuestion({
+        title: values.title,
+        content: values.explanation,
+        tags: values.tags,
+        // author: JSON.parse(mongoUserId),
+        path: pathname,
+      });
+      toast({
+        title: `Question posted successfully`,
+        description: "Your question has been added successfully",
+      });
+      // after question create navigate to home page
+      router.push("/");
       //   }
     } catch (error) {
       // todo: handle error
