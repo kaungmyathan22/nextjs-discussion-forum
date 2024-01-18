@@ -5,48 +5,11 @@ import NoResult from "@/components/shared/NoResult";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
+import { getQuestions } from "@/lib/actions/question.action";
 import Link from "next/link";
 
-const questions = [
-  {
-    _id: "1",
-    title: "How to create mongoose new model data in async await function ?",
-    tags: [
-      { _id: "1", name: "python" },
-      { _id: "2", name: "sql" },
-    ],
-    author: {
-      name: "John Doe",
-      _id: "2",
-      picture: "/assets/",
-      clerkId: "",
-    },
-    upvotes: 10,
-    views: 100,
-    answers: [],
-    createdAt: new Date(),
-  },
-  {
-    _id: "2",
-    title: "How to center a div",
-    tags: [
-      { _id: "1", name: "css" },
-      { _id: "2", name: "html" },
-    ],
-    author: {
-      name: "John Doe",
-      _id: "2",
-      picture: "",
-      clerkId: "",
-    },
-    upvotes: 10,
-    views: 100,
-    answers: [],
-    createdAt: new Date(),
-  },
-];
-
-export default function Home() {
+export default async function Home() {
+  const result = await getQuestions({});
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -76,10 +39,8 @@ export default function Home() {
       <div>
         <div className="mt-10 flex flex-col gap-6">
           {/*  looping through questions */}
-          {/* {result.questions.length > 0 */}
-          {questions.length > 0 ? (
-            // ? result.questions?.map((question) => (
-            questions?.map((question) => (
+          {result.questions.length > 0 ? (
+            result.questions?.map((question) => (
               <QuestionCard
                 key={question._id}
                 _id={question._id}

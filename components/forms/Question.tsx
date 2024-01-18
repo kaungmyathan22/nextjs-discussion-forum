@@ -79,7 +79,7 @@ const Question = ({ mongoUserId, type, questionData }: QuestionProps) => {
         title: values.title,
         content: values.explanation,
         tags: values.tags,
-        // author: JSON.parse(mongoUserId),
+        author: JSON.parse(mongoUserId),
         path: pathname,
       });
       toast({
