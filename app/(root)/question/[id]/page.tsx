@@ -1,4 +1,5 @@
 import Metric from "@/components/shared/Metric";
+import ParseHTML from "@/components/shared/ParseHTML";
 import RenderTag from "@/components/shared/RenderTag";
 import { getQuestionById } from "@/lib/actions/question.action";
 import { getUserById } from "@/lib/actions/user.action";
@@ -85,7 +86,7 @@ const page = async ({ searchParams, params }: QuestionDetailsProps) => {
       </div>
 
       {/* Parsing code to show in Ui */}
-      {/* <ParseHTML data={question.content} /> */}
+      <ParseHTML data={question.content} />
       {/* Rending Tags */}
       <div className="mt-8 flex flex-wrap gap-2">
         {question.tags.map((tag: any) => (
