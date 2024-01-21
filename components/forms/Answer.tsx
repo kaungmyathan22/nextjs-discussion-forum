@@ -1,3 +1,4 @@
+"use client";
 import { useTheme } from "@/context/ThemeProvider";
 import { AnswerSchma } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
