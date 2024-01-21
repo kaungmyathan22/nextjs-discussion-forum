@@ -6,7 +6,7 @@ import User from "@/database/use.model";
 import { FilterQuery } from "mongoose";
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../mongoose";
-import { GetQuestionsParams } from "./shared.types";
+import { GetQuestionByIdParams, GetQuestionsParams } from "./shared.types";
 
 export const createQuestion = async (params: any) => {
   // eslint-disable-next-line no-empty
@@ -118,6 +118,26 @@ export const getQuestions = async (params: GetQuestionsParams) => {
     const isNext = totalQuestions > skipAmount + questions.length;
 
     return { questions, isNext };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const getQuestionById = async (params: GetQuestionByIdParams) => {
+  try {
+    connectToDatabase();
+    const { questionId } = params;
+
+    const question = await Question.findById(questionId)
+      .populate({ path: "tags", model: Tag, select: "_id name" })
+      .populate({
+        path: "author",
+        model: User,
+        select: "_id clerkId name picture",
+      });
+
+    return { question };
   } catch (error) {
     console.log(error);
     throw error;
