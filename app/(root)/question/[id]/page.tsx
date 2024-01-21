@@ -6,8 +6,8 @@ import { getQuestionById } from "@/lib/actions/question.action";
 import { getUserById } from "@/lib/actions/user.action";
 import { formatAndDivideNumber, getTimeStamp } from "@/lib/utils";
 import { auth } from "@clerk/nextjs";
-import { Link } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 interface QuestionDetailsProps {
   params: {
     id: string;
@@ -24,7 +24,6 @@ const page = async ({ searchParams, params }: QuestionDetailsProps) => {
   if (clerkId) {
     mongoUser = await getUserById({ userId: clerkId });
   }
-
   return (
     <>
       <div className="flex-start w-full flex-col ">
@@ -41,7 +40,7 @@ const page = async ({ searchParams, params }: QuestionDetailsProps) => {
               height={22}
             />
             <p className="paragraph-semibold text-dark300_light700">
-              {question.author.name}
+              {question.author.name} Hola amigos
             </p>
           </Link>
           <div className="flex justify-end">
