@@ -1,3 +1,4 @@
+"use server";
 import Answer from "@/database/answer.model";
 import Question from "@/database/question.model";
 import User from "@/database/user.model";
