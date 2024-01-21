@@ -1,5 +1,5 @@
 import Tag from "@/database/tag.model";
-import User from "@/database/use.model";
+import User from "@/database/user.model";
 import { FilterQuery } from "mongoose";
 import { connectToDatabase } from "../mongoose";
 import { GetAllTagsParams, GetTopInteractedTagsParams } from "./shared.types";

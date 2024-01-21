@@ -1,7 +1,7 @@
 "use server";
 
 import Question from "@/database/question.model";
-import User, { IUser } from "@/database/use.model";
+import User, { IUser } from "@/database/user.model";
 import { FilterQuery } from "mongoose";
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../mongoose";

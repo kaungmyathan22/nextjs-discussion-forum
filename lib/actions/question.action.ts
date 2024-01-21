@@ -2,7 +2,7 @@
 
 import Question from "@/database/question.model";
 import Tag from "@/database/tag.model";
-import User from "@/database/use.model";
+import User from "@/database/user.model";
 import { FilterQuery } from "mongoose";
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../mongoose";
