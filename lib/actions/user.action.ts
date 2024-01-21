@@ -1,14 +1,16 @@
 "use server";
 
+import Question from "@/database/question.model";
 import User from "@/database/use.model";
+import { FilterQuery } from "mongoose";
+import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../mongoose";
 import {
   CreateUserParams,
   DeleteUserParams,
+  GetAllUsersParams,
   UpdateUserParams,
 } from "./shared.types";
-import Question from "@/database/question.model";
-import { revalidatePath } from "next/cache";
 
 export const getUserById = async (params: any) => {
   try {
@@ -84,3 +86,60 @@ export const deleteUser = async (params: DeleteUserParams) => {
     throw error;
   }
 };
+
+export async function getAllUsers(params: GetAllUsersParams) {
+  try {
+    connectToDatabase();
+    const { page = 1, pageSize = 10, searchQuery, filter } = params;
+
+    const skipAmount = (page - 1) * pageSize;
+
+    const query: FilterQuery<typeof User> = {};
+
+    if (searchQuery) {
+      query.$or = [
+        { name: { $regex: new RegExp(searchQuery, "i") } },
+        { username: { $regex: new RegExp(searchQuery, "i") } },
+      ];
+    }
+
+    let sortOptions = {};
+
+    switch (filter) {
+      case "new_users":
+        sortOptions = { joinAt: -1 };
+        break;
+      case "old_users":
+        sortOptions = { joinAt: 1 };
+        break;
+      case "top_contributors":
+        sortOptions = { reputation: -1 };
+
+        break;
+
+      default:
+        break;
+    }
+
+    const users = await User.find(query)
+      .skip(skipAmount)
+      .limit(pageSize)
+      .sort(sortOptions);
+
+    const totalUsers = await User.countDocuments(query);
+
+    const isNext = totalUsers > skipAmount + users.length;
+
+    return { users, isNext };
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// export async function getAllUsers(params: GetAllUsersParams) {
+//   try {
+//     connectToDatabase();
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
