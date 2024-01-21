@@ -1,4 +1,5 @@
 import Answer from "@/components/forms/Answer";
+import AllAnswers from "@/components/shared/AllAnswers";
 import Metric from "@/components/shared/Metric";
 import ParseHTML from "@/components/shared/ParseHTML";
 import RenderTag from "@/components/shared/RenderTag";
@@ -99,13 +100,13 @@ const page = async ({ searchParams, params }: QuestionDetailsProps) => {
       </div>
 
       {/* All Answers */}
-      {/* <AllAnswers
+      <AllAnswers
         questionId={question._id}
         userId={mongoUser._id}
         totalAnswers={question.answers.length}
         page={searchParams?.page}
         filter={searchParams?.filter}
-      /> */}
+      />
 
       {/* Answer Ai generated Question */}
       <Answer
