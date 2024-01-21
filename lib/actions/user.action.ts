@@ -1,7 +1,7 @@
 "use server";
 
 import Question from "@/database/question.model";
-import User from "@/database/use.model";
+import User, { IUser } from "@/database/use.model";
 import { FilterQuery } from "mongoose";
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../mongoose";
@@ -121,7 +121,7 @@ export async function getAllUsers(params: GetAllUsersParams) {
         break;
     }
 
-    const users = await User.find(query)
+    const users: IUser[] = await User.find(query)
       .skip(skipAmount)
       .limit(pageSize)
       .sort(sortOptions);
