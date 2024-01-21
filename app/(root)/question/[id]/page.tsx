@@ -1,3 +1,4 @@
+import Answer from "@/components/forms/Answer";
 import Metric from "@/components/shared/Metric";
 import ParseHTML from "@/components/shared/ParseHTML";
 import RenderTag from "@/components/shared/RenderTag";
@@ -19,10 +20,9 @@ const page = async ({ searchParams, params }: QuestionDetailsProps) => {
 
   const { userId: clerkId } = auth();
 
-  //   let mongoUser;
+  let mongoUser;
   if (clerkId) {
-    await getUserById({ userId: clerkId });
-    // mongoUser = await getUserById({ userId: clerkId });
+    mongoUser = await getUserById({ userId: clerkId });
   }
 
   return (
@@ -109,11 +109,11 @@ const page = async ({ searchParams, params }: QuestionDetailsProps) => {
       /> */}
 
       {/* Answer Ai generated Question */}
-      {/* <Answer
+      <Answer
         question={question.content}
         questionId={JSON.stringify(question._id)}
         authorId={JSON.stringify(mongoUser._id)}
-      /> */}
+      />
     </>
   );
 };
