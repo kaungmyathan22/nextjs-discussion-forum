@@ -7,13 +7,16 @@ import { SearchParamsProps } from "@/types";
 import Link from "next/link";
 
 const page = async ({ searchParams }: SearchParamsProps) => {
-  const { tags, isNext } = await getAllTags({
+  const {
+    tags,
+    //  isNext
+  } = await getAllTags({
     searchQuery: searchParams?.q,
     filter: searchParams?.filter,
     page: searchParams?.page ? +searchParams.page : 1,
   });
 
-  const pageNumber = searchParams?.page ? +searchParams?.page : 1;
+  // const pageNumber = searchParams?.page ? +searchParams?.page : 1;
 
   return (
     <>
