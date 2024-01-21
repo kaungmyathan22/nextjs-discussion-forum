@@ -1,14 +1,23 @@
 "use client";
+
 import { useTheme } from "@/context/ThemeProvider";
+import { createAnswer } from "@/lib/actions/answer.action";
 import { AnswerSchma } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Editor } from "@tinymce/tinymce-react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
-import { Form, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
-import { FormControl, FormField, FormItem, FormMessage } from "../ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "../ui/form";
 import { toast } from "../ui/use-toast";
 
 interface Props {
@@ -21,7 +30,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
   const { mode } = useTheme();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmittingAI, setIsSubmittingAI] = useState(false);
-  //   const pathname = usePathname();
+  const pathname = usePathname();
   const editorRef = useRef(null);
   const form = useForm<z.infer<typeof AnswerSchma>>({
     resolver: zodResolver(AnswerSchma),
@@ -29,15 +38,16 @@ const Answer = ({ question, questionId, authorId }: Props) => {
       answer: "",
     },
   });
+
   const handleCreatAnswer = async (values: z.infer<typeof AnswerSchma>) => {
     setIsSubmitting(true);
     try {
-      //   await createAnswer({
-      //     content: values.answer,
-      //     author: JSON.parse(authorId),
-      //     question: JSON.parse(questionId),
-      //     path: pathname,
-      //   });
+      await createAnswer({
+        content: values.answer,
+        author: JSON.parse(authorId),
+        question: JSON.parse(questionId),
+        path: pathname,
+      });
 
       toast({
         title: `${values.answer && "Answer posted"}`,
@@ -94,7 +104,6 @@ const Answer = ({ question, questionId, authorId }: Props) => {
       setIsSubmittingAI(false);
     }
   };
-
   return (
     <div className="mt-8">
       <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
@@ -191,5 +200,4 @@ const Answer = ({ question, questionId, authorId }: Props) => {
     </div>
   );
 };
-
 export default Answer;
