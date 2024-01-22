@@ -7,11 +7,13 @@ import { SearchParamsProps } from "@/types";
 import { Link } from "lucide-react";
 
 const page = async ({ searchParams }: SearchParamsProps) => {
-  const { users, isNext } = await getAllUsers({
+  const data = await getAllUsers({
     searchQuery: searchParams?.q,
     filter: searchParams?.filter,
     page: searchParams?.page ? +searchParams?.page : 1,
   });
+
+  const users = data?.users || [];
 
   return (
     <>
@@ -32,7 +34,7 @@ const page = async ({ searchParams }: SearchParamsProps) => {
       </div>
       <section className="mt-12 flex flex-wrap gap-4">
         {users.length > 0 ? (
-          users.map((user) => <UserCard key={user._id} user={user} />)
+          users.map((user) => <UserCard key={user._id} user={user as any} />)
         ) : (
           <div className="paragraph-regular text-dark200_light800 mx-auto max-w-4xl text-center">
             <p>No User yet</p>
