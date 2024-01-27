@@ -20,7 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useTheme } from "@/context/ThemeProvider";
 // import { createQuestion, editQuestion } from "@/lib/actions/question.action";
-import { createQuestion } from "@/lib/actions/question.action";
+import { createQuestion, editQuestion } from "@/lib/actions/question.action";
 import { questionsSchema } from "@/lib/validations";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
@@ -61,34 +61,34 @@ const Question = ({ mongoUserId, type, questionData }: QuestionProps) => {
 
     try {
       // make async call to our api -> to create a question
-      //   if (type === "Edit") {
-      //     await editQuestion({
-      //       questionId: questionDetails._id,
-      //       title: values.title,
-      //       content: values.explanation,
-      //       path: pathname,
-      //     });
-      //     router.push(`/question/${questionDetails._id}`);
-      //     toast({
-      //       title: `Question Edited `,
-      //       description: "Your question has been edited successfully",
-      //     });
-      //   } else {
-      //     // contain all form data
-      await createQuestion({
-        title: values.title,
-        content: values.explanation,
-        tags: values.tags,
-        author: JSON.parse(mongoUserId),
-        path: pathname,
-      });
-      toast({
-        title: `Question posted successfully`,
-        description: "Your question has been added successfully",
-      });
-      // after question create navigate to home page
-      router.push("/");
-      //   }
+      if (type === "Edit") {
+        await editQuestion({
+          questionId: questionDetails._id,
+          title: values.title,
+          content: values.explanation,
+          path: pathname,
+        });
+        router.push(`/question/${questionDetails._id}`);
+        toast({
+          title: `Question Edited `,
+          description: "Your question has been edited successfully",
+        });
+      } else {
+        //     // contain all form data
+        await createQuestion({
+          title: values.title,
+          content: values.explanation,
+          tags: values.tags,
+          author: JSON.parse(mongoUserId),
+          path: pathname,
+        });
+        toast({
+          title: `Question posted successfully`,
+          description: "Your question has been added successfully",
+        });
+        // after question create navigate to home page
+        router.push("/");
+      }
     } catch (error) {
       // todo: handle error
       console.log("error:", error);
