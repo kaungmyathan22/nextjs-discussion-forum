@@ -1,6 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
+import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 // import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -31,22 +32,22 @@ const LocalSearchBar = ({
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      //   if (search) {
-      //     const newUrl = formUrlQuery({
-      //       params: searchParams.toString(),
-      //       key: "q",
-      //       value: search,
-      //     });
-      //     router.push(newUrl, { scroll: false });
-      //   } else {
-      //     if (pathname === route) {
-      //       const newUrl = removeKeysFromQuery({
-      //         params: searchParams.toString(),
-      //         keysToRemove: ["q"],
-      //       });
-      //       router.push(newUrl, { scroll: false });
-      //     }
-      //   }
+      if (search) {
+        const newUrl = formUrlQuery({
+          params: searchParams.toString(),
+          key: "q",
+          value: search,
+        });
+        router.push(newUrl, { scroll: false });
+      } else {
+        if (pathname === route) {
+          const newUrl = removeKeysFromQuery({
+            params: searchParams.toString(),
+            keysToRemove: ["q"],
+          });
+          router.push(newUrl, { scroll: false });
+        }
+      }
     }, 300);
 
     return () => clearTimeout(delayDebounceFn);
