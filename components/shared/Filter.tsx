@@ -8,8 +8,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { formUrlQuery } from "@/lib/utils";
 // import { formUrlQuery } from "@/lib/utils";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface Props {
   filters: { name: string; value: string }[];
@@ -19,16 +20,16 @@ interface Props {
 
 const Filter = ({ filters, otherClasses, containerClasses }: Props) => {
   const searchParams = useSearchParams();
-  //   const router = useRouter();
+  const router = useRouter();
 
   const paramsFilter = searchParams.get("filter");
   const handleUpdateParams = (value: string) => {
-    // const newUrl = formUrlQuery({
-    //   params: searchParams.toString(),
-    //   key: "filter",
-    //   value,
-    // });
-    // router.push(newUrl, { scroll: false });
+    const newUrl = formUrlQuery({
+      params: searchParams.toString(),
+      key: "filter",
+      value,
+    });
+    router.push(newUrl, { scroll: false });
   };
   return (
     <div className={`relative ${containerClasses}`}>
