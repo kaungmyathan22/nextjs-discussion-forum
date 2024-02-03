@@ -24,7 +24,7 @@ export const createAnswer = async (params: CreateAnswerParams) => {
     });
 
     // add the answer to the question answers array
-    await Question.findByIdAndUpdate(question, {
+    const questionObject = await Question.findByIdAndUpdate(question, {
       $push: {
         answers: newAnswer._id,
       },
@@ -32,13 +32,13 @@ export const createAnswer = async (params: CreateAnswerParams) => {
 
     // ? add interaction
 
-    // await Interaction.create({
-    //   user: author,
-    //   action: "answer",
-    //   question,
-    //   tags: questionObject.tags,
-    //   answer: newAnswer._id,
-    // });
+    await Interaction.create({
+      user: author,
+      action: "answer",
+      question,
+      tags: questionObject.tags,
+      answer: newAnswer._id,
+    });
 
     //  increase author's reputation +10 points for answering a question
     await User.findByIdAndUpdate(author, { $inc: { reputation: 10 } });

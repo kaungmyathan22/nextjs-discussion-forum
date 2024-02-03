@@ -53,18 +53,14 @@ export const createQuestion = async (params: any) => {
       $push: { tags: { $each: tagDocuments } },
     });
 
-    // // todo: create a interaction record for the user's ask question action
+    await Interaction.create({
+      user: author,
+      question: question._id,
+      action: "ask-question",
+      tags: tagDocuments,
+    });
 
-    // await Interaction.create({
-    //   user: author,
-    //   question: question._id,
-    //   action: "ask-question",
-    //   tags: tagDocuments,
-    // });
-
-    // // todo: increament author reputation by +5 points for creating a question
-
-    // await User.findByIdAndUpdate(author, { $inc: { reputation: 5 } });
+    await User.findByIdAndUpdate(author, { $inc: { reputation: 5 } });
 
     revalidatePath(path);
   } catch (error) {
